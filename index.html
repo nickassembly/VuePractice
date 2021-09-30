@@ -10,10 +10,20 @@
 </head>
 
 <body>
-    Hello
 
     <div id="app">
+        <input v-model="message">
+
+        <input v-bind:value="message" v-on:input="message = $event.target.value">
+
         {{message}}
+
+        <div>
+            <input v-model="loginForm.username">
+            <input v-model="loginForm.password">
+            <button v-on:click="submitForm">Submit</button>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -21,9 +31,29 @@
         var app = new Vue({
             el: `#app`,
             data: {
-                message: "Hello World"
+                message: "Hello World",
+                loginForm: {
+                    username: "",
+                    password: ""
+                }
             },
+            methods: {
+                submitForm() {
+                    console.log("Submitting login form", this.loginForm)
+
+                    var callLog = () => {
+                        this.log("Logging: something");
+                    }
+
+                    callLog();
+                },
+                log(v) {
+                    console.log(v);
+                }
+            }
         });
+
+
     </script>
 </body>
 
