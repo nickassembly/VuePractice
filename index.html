@@ -34,6 +34,15 @@
                 {{user.name}}
             </span>
         </p>
+        <p>
+            <span v-for="(item, index) in list">
+                <span>
+                   {{index + 1}}.{{item.name}},
+                </span>
+            </span>
+
+          
+        </p>
 
     </div>
 
@@ -48,9 +57,9 @@
                     password: ""
                 },
                 list: [
-                    "a - foo",
-                    "a - john",
-                    "b - doe"
+                    {name: "a - foo", age: 14},
+                    {name: "a - john", age: 12},
+                    {name: "b - doe", age: 15}
                 ],
                 show: true,
                 user: null,
@@ -75,7 +84,7 @@
                 },
                 filterList: function () {
                     return this.list.filter(x => {
-                        return x.indexOf("a") === 0
+                        return x.name.indexOf("a") === 0
                     })
                 }
             }
