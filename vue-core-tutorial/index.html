@@ -36,26 +36,47 @@
         </p>
 
         <p>
-            <button v-on:click="user = {name: 'Bob'}">Toggle</button>
-
+            <button v-on:click="show = !show">Toggle</button>
             <span v-if="user">
                 {{user.name}}
             </span>
         </p>
+        <p v-if="show">
+            <span v-for=""
+        </p>
         <p>
             <span v-for="(item, index) in list">
                 <span v-bind:class="{'text-red': item.color === 'red', 'text-green': item.color === 'green'}">
-                   {{index + 1}}.{{item.name}},
+                    {{index + 1}}.{{item.name}},
                 </span>
             </span>
 
-          
+
         </p>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
+     Vue.component('span-component', {
+         props: ['item', 'index'],
+         created() {
+             console.log("component created");
+         },
+         beforeDestroy(){
+             console.log("component destroyed");
+         },
+         methods: {
+             shout(v) {
+                 this.$emit('shout', {value: v})
+             }
+         }
+         
+     })
+
+     
+      
+
         var app = new Vue({
             el: `#app`,
             data: {
@@ -65,12 +86,18 @@
                     password: ""
                 },
                 list: [
-                    {name: "a - foo", color: 'red'},
-                    {name: "a - john", color: 'red'},
-                    {name: "b - doe", color: 'green'}
+                    { name: "a - foo", color: 'red' },
+                    { name: "a - john", color: 'red' },
+                    { name: "b - doe", color: 'green' }
                 ],
                 show: true,
                 user: null,
+            },
+            created() {
+                console.log("Main created");
+            },
+            mounted() {
+                console.log("Main mounted");
             },
             methods: {
                 submitForm() {

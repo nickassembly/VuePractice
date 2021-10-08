@@ -1,0 +1,14 @@
+{
+  "name": "vue-npm-tutorial",
+  "version": "1.0.0",
+  "description": "vue with npm ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Hello World\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.6.14"
+  }
+}
