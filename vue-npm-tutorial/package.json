@@ -4,11 +4,16 @@
   "description": "vue with npm ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Hello World\" && exit 0"
+    "test": "echo \"Hello World\" && exit 0",
+    "build": "webpack --mode development"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
   }
 }
