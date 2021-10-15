@@ -1,50 +1,29 @@
 <template>
   <div id="app">
-<div class="text-input" style="width: 200px">
-  <div>
-  <label>First Name</label>
-  <input :class="validationClass" v-model="firstName">
-  </div>
-  <div class="validation">
-{{inputCount}} / {{textLimit}}
-  </div>
-</div>
-<div>
-  {{firstName}}
-</div>
+    <TextField label="First Name" v-model="firstName" :textLimit="15"></TextField>
+    <TextField :label="'Last Name'" v-model="lastName" :textLimit="15"></TextField>
+    <div>{{fullName}}</div>
   </div>
 </template>
 
 <script>
-
+import TextField from "./components/TextField"
 
 export default {
   name: "App",
   data() {
-return {
-  firstName: "",
-  textLimit: 15
-};
-  },
-  watch: {
-firstName: function(newValue, oldValue) {
-  console.log(newValue, oldValue);
-  if (newValue.length > this.textLimit) this.firstName = oldValue;
-} 
-  },
-  computed: {
-inputCount() {
-  return this.firstName.length;
-},
-isEmpty() {
-  return this.firstName.length === 0;
-},
-validationClass() {
-  return this.isEmpty ? "invalid" : "valid";
-}
+    return {
+      firstName: "",
+      lastName: ""
+    };
   },
   components: {
-  
+  TextField
+  },
+  computed: {
+    fullName() {
+      return this.firstName + " " + this.lastName;
+    }
   }
 };
 </script>
