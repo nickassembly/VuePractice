@@ -18,20 +18,34 @@
       :options="genderList"
     ></SelectField>
 
-        <SelectField
+    <SelectField
       label="Age"
       v-model="age"
       placeholder="Select your Age"
       :options="ageList"
     ></SelectField>
 
+   <TextAreaField
+   label="Bio"
+   v-model="bio"
+   :textLimit="255"
+   resize="vertical"
+   autoResize
+   >
+
+   </TextAreaField>
+
     <div>{{ fullName }} - {{ gender }} - {{ age }}</div>
+    <div>
+      {{ bio }}
+    </div>
   </div>
 </template>
 
 <script>
 import TextField from "./components/TextField";
 import SelectField from "./components/SelectField";
+import TextAreaField from "./components/TextAreaField"
 
 export default {
   name: "App",
@@ -41,11 +55,14 @@ export default {
       lastName: "",
       gender: "",
       age: "",
+      bio: "",
     };
   },
+
   components: {
     TextField,
     SelectField,
+    TextAreaField
   },
   computed: {
     fullName() {
@@ -60,7 +77,7 @@ export default {
     },
     ageList() {
       let result = [];
-      for (let i = 16; i < 65; i++) result.push({value: i, text: i});
+      for (let i = 16; i < 65; i++) result.push({ value: i, text: i });
 
       return result;
     },
@@ -72,28 +89,6 @@ export default {
 #app {
   margin-top: 60px;
 
-  .text-input {
-    label {
-      display: block;
-      width: 100%;
-    }
-
-    input {
-      display: block;
-    }
-
-    input.valid {
-      border: 1px solid green;
-    }
-
-    input.invalid {
-      border: 1px solid red;
-    }
-
-    .validation {
-      text-align: right;
-      font-size: 12px;
-    }
-  }
+ 
 }
 </style>

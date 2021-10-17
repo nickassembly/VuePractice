@@ -43,6 +43,30 @@ validationClass() {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+
+ .text-input {
+    label {
+      display: block;
+      width: 100%;
+    }
+
+    input {
+      display: block;
+    }
+
+    input.valid {
+      border: 1px solid green;
+    }
+
+    input.invalid {
+      border: 1px solid red;
+    }
+
+    .validation {
+      text-align: right;
+      font-size: 12px;
+    }
+  }
 
 </style>
