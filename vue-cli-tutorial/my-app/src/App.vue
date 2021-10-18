@@ -2,67 +2,74 @@
   <div id="app">
     <TextField
       label="First Name"
-      v-model="firstName"
+      v-model="form.firstName"
+      :rules = "firstNameRules"
       :textLimit="15"
     ></TextField>
     <TextField
       :label="'Last Name'"
-      v-model="lastName"
+      v-model="form.lastName"
       :textLimit="15"
     ></TextField>
 
     <SelectField
       label="Gender"
-      v-model="gender"
+      v-model="form.gender"
       placeholder="Select your Gender"
       :options="genderList"
     ></SelectField>
 
     <SelectField
       label="Age"
-      v-model="age"
+      v-model="form.age"
       placeholder="Select your Age"
       :options="ageList"
     ></SelectField>
 
-   <TextAreaField
-   label="Bio"
-   v-model="bio"
-   :textLimit="255"
-   resize="vertical"
-   autoResize
-   >
+    <TextAreaField
+      label="Bio"
+      v-model="form.bio"
+      :textLimit="255"
+      resize="vertical"
+      autoResize
+    >
+    </TextAreaField>
 
-   </TextAreaField>
-
-    <div>{{ fullName }} - {{ gender }} - {{ age }}</div>
     <div>
-      {{ bio }}
+      {{form}}
     </div>
+
   </div>
 </template>
 
 <script>
 import TextField from "./components/TextField";
 import SelectField from "./components/SelectField";
-import TextAreaField from "./components/TextAreaField"
+import TextAreaField from "./components/TextAreaField";
 
 export default {
   name: "App",
   data() {
     return {
-      firstName: "",
-      lastName: "",
-      gender: "",
-      age: "",
-      bio: "",
+      firstNameRules: [
+        v => v.length > 0 || "First name is required",
+        v => v.length < 10 || "First name has to be less than 10 characters"
+      ],
+
+      form: {
+        firstName: "",
+        lastName: "",
+        gender: "",
+        age: "",
+        bio: "",
+      },
     };
   },
 
   components: {
     TextField,
     SelectField,
-    TextAreaField
+    TextAreaField,
   },
   computed: {
     fullName() {
@@ -88,7 +95,5 @@ export default {
 <style lang="stylus">
 #app {
   margin-top: 60px;
-
- 
 }
 </style>
