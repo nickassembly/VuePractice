@@ -1,5 +1,5 @@
 <template>
-  <div class="text-input" style="width: 200px">
+  <div :class="validationClass" class="text-input" style="width: 200px">
     <div>
       <label>{{ label }}</label>
       <input
@@ -8,13 +8,11 @@
         @input="$emit('input', $event.target.value)"
       />
     </div>
-    <div v-if="textLimit > 0" class="validation">
-      {{ inputCount }} / {{ textLimit }}
+    <div class="validation">
+      <div v-if="valid !== true">{{ valid }}</div>
+      <div></div>
+      <div v-if="textLimit > 0">{{ inputCount }} / {{ textLimit }}</div>
     </div>
-    <div v-if="valid !== true">
-     {{valid}}
-    </div>
-
   </div>
 </template>
 
@@ -36,18 +34,18 @@ export default {
     rules: {
       required: false,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     data() {
       return {
-        valid: true
-      }
-    }
+        valid: true,
+      };
+    },
   },
   watch: {
     value: function (newValue, oldValue) {
-      if(this.rules.length > 0){
-        for(let i = 0; i < this.rules.length; i++) {
+      if (this.rules.length > 0) {
+        for (let i = 0; i < this.rules.length; i++) {
           this.valid = this.rules[i](newValue);
           if (this.valid !== true) break;
         }
@@ -60,9 +58,8 @@ export default {
     inputCount() {
       return this.value.length;
     },
-
     validationClass() {
-      return this.isEmpty ? "invalid" : "valid";
+      return this.valid !== true ? "invalid" : "valid";
     },
   },
 };
@@ -72,24 +69,26 @@ export default {
 .text-input {
   label {
     display: block;
-    width: 100%;
   }
 
   input {
     display: block;
-  }
-
-  input.valid {
-    border: 1px solid green;
-  }
-
-  input.invalid {
-    border: 1px solid red;
+    width: 100%;
   }
 
   .validation {
+    display: flex;
+    justify-content: space-between;
     text-align: right;
     font-size: 12px;
+  }
+
+.invalid {
+    color: red;
+  }
+
+.valid {
+    color: green;
   }
 }
 </style>
