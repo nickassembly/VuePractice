@@ -3,7 +3,7 @@
     <div>
       <label>{{ label }}</label>
       <input
-        :class="validationClass"
+        :type="type"
         :value="value"
         @input="$emit('input', $event.target.value)"
       />
@@ -11,7 +11,7 @@
     <div class="validation">
       <div v-if="valid !== true">{{ valid }}</div>
       <div></div>
-      <div v-if="textLimit > 0">{{ inputCount }} / {{ textLimit }}</div>
+      <div v-if="textLimit > 0">{{ inputCount }}/{{ textLimit }}</div>
     </div>
   </div>
 </template>
@@ -36,22 +36,29 @@ export default {
       type: Array,
       default: () => [],
     },
-    data() {
-      return {
-        valid: true,
-      };
+    type: {
+      required: false,
+      type: String,
     },
   },
+  data() {
+    return {
+      valid: true,
+    };
+  },
   watch: {
-    value: function (newValue, oldValue) {
-      if (this.rules.length > 0) {
-        for (let i = 0; i < this.rules.length; i++) {
-          this.valid = this.rules[i](newValue);
-          if (this.valid !== true) break;
+    value: {
+      immediate: true,
+      handler: function(newValue, oldValue) {
+        if (this.rules.length > 0) {
+          for (let i = 0; i < this.rules.length; i++) {
+            this.valid = this.rules[i](newValue);
+            if (this.valid !== true) break;
+          }
         }
-      }
 
-      if (newValue.length > this.textLimit) this.$emit("input", oldValue);
+        if (newValue.length > this.textLimit) this.$emit("input", oldValue);
+      },
     },
   },
   computed: {
@@ -81,14 +88,26 @@ export default {
     justify-content: space-between;
     text-align: right;
     font-size: 12px;
+
+    div:first-child {
+      text-align: left;
+    }
   }
+}
 
 .invalid {
-    color: red;
+  color: red;
+
+  input {
+    border: 1px solid red;
   }
+}
 
 .valid {
-    color: green;
+  color: green;
+
+  input {
+    border: 1px solid green;
   }
 }
 </style>

@@ -9,6 +9,7 @@
     <TextField
       :label="'Last Name'"
       v-model="form.lastName"
+      :rules = "lastNameRules"
       :textLimit="15"
     ></TextField>
 
@@ -38,6 +39,7 @@
     <div>
       {{form}}
     </div>
+    <button @click="validate">Validate</button>
 
   </div>
 </template>
@@ -55,7 +57,9 @@ export default {
         v => v.length > 0 || "First name is required",
         v => v.length < 10 || "First name has to be less than 10 characters"
       ],
-
+        lastNameRules: [
+        v => v.length > 0 || "Last name is required"
+      ],
       form: {
         firstName: "",
         lastName: "",
@@ -70,6 +74,14 @@ export default {
     TextField,
     SelectField,
     TextAreaField,
+  },
+  mounted() {
+    this.$children
+  },
+  methods: {
+    validate() {
+
+    }
   },
   computed: {
     fullName() {
