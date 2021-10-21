@@ -3,13 +3,13 @@
     <TextField
       label="First Name"
       v-model="form.firstName"
-      :rules = "firstNameRules"
+      :rules="firstNameRules"
       :textLimit="15"
     ></TextField>
     <TextField
       :label="'Last Name'"
       v-model="form.lastName"
-      :rules = "lastNameRules"
+      :rules="lastNameRules"
       :textLimit="15"
     ></TextField>
 
@@ -36,11 +36,11 @@
     >
     </TextAreaField>
 
-    <div>
-      {{form}}
-    </div>
-    <button @click="validate">Validate</button>
+    <div>{{ form }}</div>
+    <div>{{ formValid }}</div>
+    <div>{{ errors }}</div>
 
+    <button v-if="formValid">Submit</button>
   </div>
 </template>
 
@@ -54,12 +54,10 @@ export default {
   data() {
     return {
       firstNameRules: [
-        v => v.length > 0 || "First name is required",
-        v => v.length < 10 || "First name has to be less than 10 characters"
+        (v) => v.length > 0 || "First name is required",
+        (v) => v.length < 10 || "First name has to be less than 10 characters",
       ],
-        lastNameRules: [
-        v => v.length > 0 || "Last name is required"
-      ],
+      lastNameRules: [(v) => v.length > 0 || "Last name is required"],
       form: {
         firstName: "",
         lastName: "",
@@ -67,6 +65,7 @@ export default {
         age: "",
         bio: "",
       },
+      errors: {},
     };
   },
 
@@ -77,11 +76,17 @@ export default {
   },
   mounted() {
     this.$children
-  },
-  methods: {
-    validate() {
-
-    }
+      .filter((c) => c.valid !== undefined)
+      .forEach((c) => {
+        c.$watch(
+          "valid",
+          (v) => {
+            console.info("Custom watcher: ", c, v);
+            this.$set(this.errors, c._uid, v);
+          },
+          { immediate: true }
+        );
+      });
   },
   computed: {
     fullName() {
@@ -100,6 +105,12 @@ export default {
 
       return result;
     },
+    errorList() {
+      return Object.values(this.errors).filter((v) => v !== true);
+    },
+    formValid(){
+      return this.errorList.length === 0;
+    }
   },
 };
 </script>
