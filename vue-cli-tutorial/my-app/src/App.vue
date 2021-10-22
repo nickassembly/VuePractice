@@ -1,50 +1,60 @@
 <template>
   <div id="app">
-    <TextField
-      label="First Name"
-      v-model="form.firstName"
-      :rules="firstNameRules"
-      :textLimit="15"
-    ></TextField>
-    <TextField
-      :label="'Last Name'"
-      v-model="form.lastName"
-      :rules="lastNameRules"
-      :textLimit="15"
-    ></TextField>
+    <Form summary v-model="formValid">
+      <template v-slot:summary="{ errors }">
+        <h3>Custom Summary</h3>
+        <div>
+          <ul>
+            <li v-for="error in errors" :key="`error-${error}`">{{error}}</li>
+          </ul>
+        </div>
+      </template>
+      <TextField
+        label="First Name"
+        v-model="form.firstName"
+        :rules="firstNameRules"
+        :textLimit="15"
+      ></TextField>
+      <TextField
+        :label="'Last Name'"
+        v-model="form.lastName"
+        :rules="lastNameRules"
+        :textLimit="15"
+      ></TextField>
 
-    <SelectField
-      label="Gender"
-      v-model="form.gender"
-      placeholder="Select your Gender"
-      :options="genderList"
-    ></SelectField>
+      <SelectField
+        label="Gender"
+        v-model="form.gender"
+        placeholder="Select your Gender"
+        :options="genderList"
+      ></SelectField>
 
-    <SelectField
-      label="Age"
-      v-model="form.age"
-      placeholder="Select your Age"
-      :options="ageList"
-    ></SelectField>
+      <SelectField
+        label="Age"
+        v-model="form.age"
+        placeholder="Select your Age"
+        :options="ageList"
+      ></SelectField>
 
-    <TextAreaField
-      label="Bio"
-      v-model="form.bio"
-      :textLimit="255"
-      resize="vertical"
-      autoResize
-    >
-    </TextAreaField>
+      <TextAreaField
+        label="Bio"
+        v-model="form.bio"
+        :textLimit="255"
+        resize="vertical"
+        autoResize
+      >
+      </TextAreaField>
 
-    <div>{{ form }}</div>
-    <div>{{ formValid }}</div>
-    <div>{{ errors }}</div>
+      <div>{{ form }}</div>
 
-    <button v-if="formValid">Submit</button>
+      <button v-if="formValid">Submit</button>
+      <span v-else>Please fill out the form</span>
+    </Form>
   </div>
 </template>
 
 <script>
+import Form from "./components/Form";
 import TextField from "./components/TextField";
 import SelectField from "./components/SelectField";
 import TextAreaField from "./components/TextAreaField";
@@ -65,7 +75,7 @@ export default {
         age: "",
         bio: "",
       },
-      errors: {},
+      formValid: false,
     };
   },
 
@@ -73,20 +83,7 @@ export default {
     TextField,
     SelectField,
     TextAreaField,
-  },
-  mounted() {
-    this.$children
-      .filter((c) => c.valid !== undefined)
-      .forEach((c) => {
-        c.$watch(
-          "valid",
-          (v) => {
-            console.info("Custom watcher: ", c, v);
-            this.$set(this.errors, c._uid, v);
-          },
-          { immediate: true }
-        );
-      });
+    Form,
   },
   computed: {
     fullName() {
@@ -105,12 +102,6 @@ export default {
 
       return result;
     },
-    errorList() {
-      return Object.values(this.errors).filter((v) => v !== true);
-    },
-    formValid(){
-      return this.errorList.length === 0;
-    }
   },
 };
 </script>
