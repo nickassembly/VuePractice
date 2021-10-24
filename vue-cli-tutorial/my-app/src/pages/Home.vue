@@ -1,5 +1,5 @@
 <template>
-    <Form summary v-model="formValid">
+    <a-form summary v-model="formValid">
       <template v-slot:summary="{ errors }">
         <h3>Custom Summary</h3>
         <div>
@@ -8,55 +8,49 @@
           </ul>
         </div>
       </template>
-      <TextField
+      <a-input
         label="First Name"
         v-model="form.firstName"
         :rules="firstNameRules"
         :textLimit="15"
-      ></TextField>
-      <TextField
+      />
+      <a-input
         :label="'Last Name'"
         v-model="form.lastName"
         :rules="lastNameRules"
         :textLimit="15"
-      ></TextField>
+      />
 
-      <SelectField
+      <a-select
         label="Gender"
         v-model="form.gender"
         placeholder="Select your Gender"
         :options="genderList"
-      ></SelectField>
-
-      <SelectField
+      />
+      
+      <a-select
         label="Age"
         v-model="form.age"
         placeholder="Select your Age"
         :options="ageList"
-      ></SelectField>
+      />
 
-      <TextAreaField
+      <a-textarea
         label="Bio"
         v-model="form.bio"
         :textLimit="255"
         resize="vertical"
         autoResize
-      >
-      </TextAreaField>
-
+      />
+      
       <div>{{ form }}</div>
 
       <button v-if="formValid">Submit</button>
       <span v-else>Please fill out the form</span>
-    </Form>
+    </a-form>
 </template>
 
 <script>
-import Form from "../components/Form";
-import TextField from "../components/TextField";
-import SelectField from "../components/SelectField";
-import TextAreaField from "../components/TextAreaField";
-
 export default {
   data() {
     return {
@@ -74,13 +68,6 @@ export default {
       },
       formValid: false,
     };
-  },
-
-  components: {
-    TextField,
-    SelectField,
-    TextAreaField,
-    Form,
   },
   computed: {
     fullName() {

@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: "a-select",
     props: {
         label: {
             required: false,

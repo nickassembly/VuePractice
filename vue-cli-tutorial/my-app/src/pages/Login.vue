@@ -1,42 +1,41 @@
 <template>
-  <Form v-model="formValid">
-    <TextField
+  <a-form v-model="formValid">
+    <a-input
       label="Username"
+      :rules="userNameRules"
       v-model="form.username"
       :textLimit="15"
-    ></TextField>
-    <TextField
+    />
+    <a-input
       label="Password"
+      type="password"
+      :rules="passwordRules"
       v-model="form.password"
       :textLimit="15"
-    ></TextField>
+    />
 
     <button>Login</button>
-  </Form>
+  </a-form>
 </template>
 
 <script>
-import Form from "../components/Form";
-import TextField from "../components/TextField";
-//import SelectField from "../components/SelectField";
-//import TextAreaField from "../components/TextField";
-
 export default {
   data() {
     return {
+        userNameRules: [
+        (v) => v.length > 0 || "user name is required",
+      ],
+        passwordRules: [
+        (v) => v.length > 0 || "password is required",
+        (v) => v.length > 6 || "password needs at least 6 characters",
+      ],
       form: {
         username: "",
         password: "",
       },
       formValid: true,
     };
-  },
-  components: {
-    TextField,
-  //  SelectField,
-  //  TextAreaField,
-    Form
-  },
+  }
 };
 </script>
 

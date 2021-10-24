@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  name: "a-form",
   props: {
     value: {
       required: true,
