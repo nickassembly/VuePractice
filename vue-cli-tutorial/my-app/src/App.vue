@@ -1,11 +1,14 @@
 <template>
   <div id="app">
     <div>
-      <a @click="page = 'home'">Home</a>
-      <a @click="page = 'login'">Login</a>
+      <!-- <a @click="page = 'home'">Home</a>
+      <a @click="page = 'login'">Login</a> -->
+      <router-link to="/">Home</router-link>
+      <router-link to="/login">Login</router-link>
     </div>
 
-    <component :is="component"></component>
+    <router-view></router-view>
+    <button @click="goToLogin">Go To Login</button>
   </div>
 </template>
 
@@ -21,14 +24,19 @@ export default {
     };
   },
   components: {
-    Home,
-    Login,
+    // Home,
+    // Login,
+  },
+  methods: {
+    goToLogin() {
+      this.$router.push("/login");
+    },
   },
   computed: {
     component() {
-     return this.page === "home" ? Home : this.page === "login" ? Login : "";
-    }
-  }
+      return this.page === "home" ? Home : this.page === "login" ? Login : "";
+    },
+  },
 };
 </script>
 
