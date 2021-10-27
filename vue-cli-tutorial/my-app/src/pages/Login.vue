@@ -14,7 +14,7 @@
       :textLimit="15"
     />
 
-    <button>Login</button>
+    <button @click="login">Login</button>
   </a-form>
 </template>
 
@@ -35,7 +35,12 @@ export default {
       },
       formValid: true,
     };
-  }
+  },
+  methods: {
+   login() {
+     this.$router.push('profile');
+   }
+  },
 };
 </script>
 
