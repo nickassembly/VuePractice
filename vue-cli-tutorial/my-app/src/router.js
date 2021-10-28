@@ -4,11 +4,12 @@ import Router from 'vue-router';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import Error404 from './pages/404'
+import Error404 from './pages/404';
+import Stats from './pages/Stats';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [
         {
@@ -24,7 +25,19 @@ export default new Router({
         {
             path: '/profile/:name?',
             name: 'profile',
-            component: Profile
+            component: Profile,
+            beforeEnter(to, from, next) {
+                console.log("fetching data");
+                console.log("updating state");
+                next();
+            },
+            meta: { auth: true },
+            children: [
+                {
+                    path: 'stats',
+                    component: Stats
+                }
+            ]
         },
         {
             path: '*',
@@ -33,3 +46,19 @@ export default new Router({
         }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.auth)) {
+        let authenticated = true;
+        //check if authenticated
+        if (authenticated) {
+            console.log("User authenticated");
+            next();
+        } else {
+        //redirect to login
+        }
+    }
+    next();
+});
+
+export default router;
