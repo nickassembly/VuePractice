@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using dotnet_api.ProfileLogic;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace dotnet_api.Controllers
 {
@@ -6,49 +8,50 @@ namespace dotnet_api.Controllers
     [ApiController]
     public class ProfileController : Controller
     {
+        private readonly ProfileAdmin _profileAdmin;
+        public ProfileController(ProfileAdmin profileAdmin)
+        {
+            _profileAdmin = profileAdmin;
+        }
+
         [HttpGet]
-        public string GetProfiles()
+        public List<Profile> GetProfiles()
         {
-            return "getting all profiles";
+            return _profileAdmin.GetProfiles();
         }
 
-        [HttpGet("{id}")]
-        public Profile GetProfile(int id)
+        [HttpGet("{name}")]
+        public IActionResult GetProfile(string name)
         {
-            return new Profile
-            {
-                Id = id,
-                FirstName = "Nick",
-                LastName = "foo",
-                Age = 42
-                
-            };
-        }
+            var profile = _profileAdmin.GetProfile(name);
 
-        public class Profile
-        {
-            public int Id { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public int Age { get; set; }
+            if (profile == null)
+                return NoContent();
+            else
+                return Ok(profile);
+
         }
 
         [HttpPost]
-        public string CreateProfile(string profile)
+        public Profile CreateProfile(Profile profile)
         {
-            return "";
+            _profileAdmin.AddProfile(profile);
+
+            return profile;
         }
 
         [HttpPut]
-        public string UpdateProfile(string profile)
+        public IActionResult UpdateProfile(Profile profile)
         {
-            return "";
+            _profileAdmin.UpdateProfile(profile);
+            return Ok();
         }
 
-        [HttpDelete]
-        public string DeleteProfile(int id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProfile(int id)
         {
-            return "";
+            _profileAdmin.DeleteProfile(id);
+            return Ok();
         }
 
 

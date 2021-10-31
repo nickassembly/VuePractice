@@ -1,3 +1,4 @@
+using dotnet_api.ProfileLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ namespace dotnet_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSingleton<ProfileAdmin>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
