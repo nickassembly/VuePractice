@@ -10,6 +10,7 @@ namespace dotnet_api
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddRazorPages();
             services.AddSingleton<ProfileAdmin>();
         }
@@ -20,6 +21,14 @@ namespace dotnet_api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+               // .AllowCredentials();
+            });
 
             app.UseStaticFiles();
             app.UseRouting();
