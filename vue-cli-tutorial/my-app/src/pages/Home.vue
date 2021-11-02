@@ -43,10 +43,11 @@
       autoResize
     />
 
-    <div>{{ form }}</div>
-
-    <button v-if="formValid">Submit</button>
+    <a-sbutton>Bobo</a-sbutton>
+    
+    <button v-if="formValid" @click="createProfile">Submit</button>
     <span v-else>Please fill out the form</span>
+
   </a-form>
 </template>
 
@@ -66,8 +67,16 @@ export default {
         age: "",
         bio: "",
       },
-      formValid: false,
+      formValid: true,
     };
+  },
+  methods: {
+    createProfile() {
+      this.$api.post("Profile", this.form).then((res) => {
+        // todo store result in vuex
+        alert(res.data)
+      });
+    },
   },
   computed: {
     fullName() {
@@ -90,11 +99,10 @@ export default {
   beforeRouteEnter(to, from, next) {
     let formString = localStorage.getItem("home-form") || null;
 
-    next(vm => {
-      if (formString !== null && formString !== ""){
+    next((vm) => {
+      if (formString !== null && formString !== "") {
         vm.form = JSON.parse(formString);
       }
- 
     });
   },
   beforeRouteLeave(to, from, next) {
