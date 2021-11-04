@@ -1,12 +1,19 @@
 <template>
-    <button>
-        <slot></slot>
+    <button @click="$emit('click')">
+        <span v-if="loading">Loading...</span>
+        <slot v-else></slot>
     </button>
 </template>
 
 <script>
 export default {
-    name: "a-sbutton"
+    name: "a-sbutton",
+    props: {
+        loading: {
+            required: false,
+            type: Boolean
+        }
+    }
 }
 </script>
 
@@ -27,4 +34,9 @@ button
     &:active
         box-shadow none
 
+    &:disabled
+        background #eee
+        box-shadow none
+        border 1px solid #aaa
+        cursor not-allowed
 </style>

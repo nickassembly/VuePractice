@@ -43,10 +43,7 @@
       autoResize
     />
 
-    <a-sbutton>Bobo</a-sbutton>
-    
-    <button v-if="formValid" @click="createProfile">Submit</button>
-    <span v-else>Please fill out the form</span>
+    <a-sbutton :loading="Loading" @click="createProfile" :disabled="!formValid || loading">Bobo</a-sbutton>
 
   </a-form>
 </template>
@@ -67,14 +64,17 @@ export default {
         age: "",
         bio: "",
       },
-      formValid: true,
+      loading: false,
+      formValid: false,
     };
   },
   methods: {
     createProfile() {
+      this.loading = true;
       this.$api.post("Profile", this.form).then((res) => {
         // todo store result in vuex
-        alert(res.data)
+        alert(res.data);
+        this.loading = false;
       });
     },
   },
