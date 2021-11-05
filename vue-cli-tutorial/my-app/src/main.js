@@ -16,6 +16,8 @@ const axiosPlugin = {
   }
 }
 
+Vue.prototype.$eventBus = new Vue();
+
 Vue.use(axiosPlugin);
 
 new Vue({

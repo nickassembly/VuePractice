@@ -43,7 +43,7 @@
       autoResize
     />
 
-    <a-sbutton :loading="Loading" @click="createProfile" :disabled="!formValid || loading">Bobo</a-sbutton>
+    <a-sbutton :loading="Loading" @click="createProfile" :disabled="!formValid || loading">Create Profile</a-sbutton>
 
   </a-form>
 </template>
@@ -73,8 +73,8 @@ export default {
       this.loading = true;
       this.$api.post("Profile", this.form).then((res) => {
         // todo store result in vuex
-        alert(res.data);
         this.loading = false;
+        this.$eventBus.$emit('created-profile', res.data);
       });
     },
   },
