@@ -1,33 +1,38 @@
 <template>
   <div>
-    <h1 v-if="name === ''">Your Profile</h1>
-    <h1 v-else>{{ name }} Profile</h1>
+    <div v-if="profile">
+    <h1>{{ profile.firstName }} - {{ profile.lastName }} Profile</h1>
 
     <div>
       <router-view></router-view>
     </div>
-    <div>
-      <p v-for="p in profiles" :key="p.id">
-        {{ p.firstName }} - {{ p.lastName }} - {{p.age}} - {{p.gender}} - {{p.bio}}
-      </p>
-    </div>
+    <div>{{ profile.age }} {{ profile.gender }} {{ profile.bio }}</div>
+  </div>
   </div>
 </template>
-<script>
 
+<script>
 export default {
   data() {
     return {
-      name: "",
-      profiles: [],
+      profiles: {},
     };
   },
-  created() {
-    let name = this.$route.params.name;
-    this.name = name === undefined ? "" : name;
-    this.$api.get("Profile").then((res) => {
-      this.profiles = res.data;
-    });
+  watch: {
+    "$route.params.name": {
+      immediate: true,
+      handler(name) {
+        this.loadProfile(name);
+      },
+    },
+  },
+  methods: {
+    loadProfile(name) {
+      name === undefined ? "" : name;
+      this.$api.get("Profile/" + name).then((res) => {
+        this.profile = res.data;
+      });
+    },
   },
 };
 </script>

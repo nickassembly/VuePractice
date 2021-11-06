@@ -11,10 +11,9 @@
         <router-view></router-view>
       </div>
       <div class="menu">
-        <p v-for="p in profiles" :key="p.id">
-          {{ p.firstName }} - {{ p.lastName }} - {{ p.age }} - {{ p.gender }} -
-          {{ p.bio }}
-        </p>
+        <router-link v-for="p in profiles" :key="p.id" :to="`/profile/${p.firstName}`">
+          {{ p.firstName }} - {{ p.lastName }} 
+        </router-link>
       </div>
     </div>
   </div>
@@ -29,7 +28,6 @@ export default {
     };
   },
   created() {
-    // Initialization
     this.loadProfiles();
     this.$eventBus.$on("created-profile", (data) => {
       this.profiles.push(data);
