@@ -72,9 +72,8 @@ export default {
     createProfile() {
       this.loading = true;
       this.$api.post("Profile", this.form).then((res) => {
-        // todo store result in vuex
         this.loading = false;
-        this.$eventBus.$emit('created-profile', res.data);
+        this.$store.commit("ADD_PROFILE", res.data);
       });
     },
   },

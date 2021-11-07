@@ -13,27 +13,15 @@
 
 <script>
 export default {
-  data() {
-    return {
-      profiles: {},
-    };
-  },
-  watch: {
-    "$route.params.name": {
-      immediate: true,
-      handler(name) {
-        this.loadProfile(name);
-      },
-    },
-  },
-  methods: {
-    loadProfile(name) {
-      name === undefined ? "" : name;
-      this.$api.get("Profile/" + name).then((res) => {
-        this.profile = res.data;
-      });
-    },
-  },
+ 
+  computed: {
+    profile() {
+      let profiles = this.$store.getters.GET_PROFILES;
+      if (profiles.length <= 0) return null;
+      let name = this.$route.params.name;
+      return profiles.filter(x => x.firstName === name)[0]
+    }
+  }
 };
 </script>
 
