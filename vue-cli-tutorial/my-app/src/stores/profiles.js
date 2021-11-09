@@ -19,9 +19,7 @@ export const store = new Vuex.Store({
         profiles: []
     },
     getters: {
-        GET_PROFILES: state => {
-            return state.profiles;
-        }
+       
     },
     mutations: {
         SET_PROFILES(state, profiles) {

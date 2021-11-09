@@ -20,14 +20,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "app",
   created() {
-    this.$store.dispatch("LOAD_PROFILES", this.$api)
+    this.LOAD_PROFILES(this.$api)
+    //this.$store.dispatch("LOAD_PROFILES", this.$api)
+  },
+  methods: {
+   ...mapActions([
+     'LOAD_PROFILES'
+   ])
   },
   computed: {
     profiles() {
-      return this.$store.getters.GET_PROFILES;
+      return this.$store.state.profiles;
     }
   }
 };
