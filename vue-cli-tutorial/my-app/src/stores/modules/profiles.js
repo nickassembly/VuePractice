@@ -14,12 +14,14 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default {
+    namespaced: true,
     state: {
         profiles: []
     },
     getters: {
-       
+       GET_PROFILE: state => name =>
+        state.profiles.filter(profile => profile.firstName == name)[0]
     },
     mutations: {
         SET_PROFILES(state, profiles) {
@@ -36,4 +38,4 @@ export const store = new Vuex.Store({
             });
         }
     }
-})
+}

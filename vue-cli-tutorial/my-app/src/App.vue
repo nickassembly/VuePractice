@@ -11,8 +11,12 @@
         <router-view></router-view>
       </div>
       <div class="menu">
-        <router-link v-for="p in profiles" :key="p.id" :to="`/profile/${p.firstName}`">
-          {{ p.firstName }} - {{ p.lastName }} 
+        <router-link
+          v-for="p in profiles"
+          :key="p.id"
+          :to="`/profile/${p.firstName}`"
+        >
+          {{ p.firstName }} - {{ p.lastName }}
         </router-link>
       </div>
     </div>
@@ -20,24 +24,23 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "app",
   created() {
-    this.LOAD_PROFILES(this.$api)
-    //this.$store.dispatch("LOAD_PROFILES", this.$api)
+    this.loadProfiles(this.$api);
   },
   methods: {
-   ...mapActions([
-     'LOAD_PROFILES'
-   ])
+    ...mapActions('profiles', {
+      loadProfiles: "LOAD_PROFILES",
+    }),
   },
   computed: {
-    profiles() {
-      return this.$store.state.profiles;
-    }
-  }
+    ...mapState('profiles', {
+      profiles: (state) => state.profiles,
+    }),
+  },
 };
 </script>
 
