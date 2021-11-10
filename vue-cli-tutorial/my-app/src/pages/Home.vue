@@ -43,12 +43,18 @@
       autoResize
     />
 
-    <a-sbutton :loading="Loading" @click="createProfile" :disabled="!formValid || loading">Create Profile</a-sbutton>
-
+    <a-sbutton
+      :loading="Loading"
+      @click="createProfile({ api: $api, form })"
+      :disabled="!formValid || loading"
+      >Create Profile</a-sbutton
+    >
   </a-form>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -64,20 +70,18 @@ export default {
         age: "",
         bio: "",
       },
-      loading: false,
       formValid: false,
     };
   },
   methods: {
-    createProfile() {
-      this.loading = true;
-      this.$api.post("Profile", this.form).then((res) => {
-        this.loading = false;
-        this.$store.commit("ADD_PROFILE", res.data);
-      });
-    },
+    ...mapActions('profiles', {
+      createProfile: "CREATE_PROFILE",
+    }),
   },
   computed: {
+    ...mapState('profiles', {
+      loading: state => state.creatingProfile
+    }),
     fullName() {
       return this.firstName + " " + this.lastName;
     },
