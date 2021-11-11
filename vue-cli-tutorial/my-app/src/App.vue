@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <!-- <div class="loader" v-if="!ready">Loading</div> -->
+    <PopUp/>
+    
     <div>
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
@@ -24,20 +27,24 @@
 </template>
 
 <script>
+import PopUp from "./components/PopUp";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "app",
+  components: {
+    PopUp,
+  },
   created() {
     this.loadProfiles(this.$api);
   },
   methods: {
-    ...mapActions('profiles', {
+    ...mapActions("profiles", {
       loadProfiles: "LOAD_PROFILES",
     }),
   },
   computed: {
-    ...mapState('profiles', {
+    ...mapState("profiles", {
       profiles: (state) => state.profiles,
     }),
   },
@@ -56,5 +63,14 @@ a {
 .app {
   display: flex;
   flex-direction: row;
+}
+
+.loader {
+  background: #eee;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 </style>
