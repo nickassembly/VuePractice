@@ -1,29 +1,27 @@
 <template>
-    <div class="popup ">
+    <div class="popup" :class="{'hidden': !show}">
         <div>{{ message }}</div>
         <div>
-            <a>CLOSE</a>
+            <a @click="hide">CLOSE</a>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState,  mapMutations } from "vuex";
 
 export default {
 name: "a-popup",
 methods: {
     ...mapMutations('popup', {
-        clear: 'CLEAR_MESSAGE'
+        hide: 'HIDE_MESSAGE'
     })
 },
 computed: {
     ...mapState('popup', {
-    message: state => state.message
+    message: state => state.message,
+    show: state => state.display
     }),
-    ...mapGetters('popup', {
-        show: "SHOW_MESSAGE"
-    })
 }
 }
 </script>

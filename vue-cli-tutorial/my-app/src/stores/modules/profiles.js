@@ -42,12 +42,13 @@ export default {
                 commit("SET_PROFILES", res.data);
             });
         },
-        CREATE_PROFILE({ commit }, payload) {
+        CREATE_PROFILE({ commit, dispatch }, payload) {
             let { api, form } = payload;
             commit('START_CREATING_PROFILE');
             
             api.post("Profile", form).then((res) => {
                 commit("ADD_PROFILE", res.data);
+                dispatch("popup/DISPLAY_POPUP", "Profile Created", {root: true})
             });
         }
     }
