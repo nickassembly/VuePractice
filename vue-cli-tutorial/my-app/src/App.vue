@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div class="loader" v-if="!ready">Loading</div> -->
+   <div class="loader" v-if="!ready">Loading</div>
     <PopUp/>
     
     <div>
@@ -36,14 +36,22 @@ export default {
     PopUp,
   },
   created() {
+    console.log("App init");
+    this.init();
     this.loadProfiles(this.$api);
   },
   methods: {
+    ...mapActions({
+init: 'INIT_APP'
+    }),
     ...mapActions("profiles", {
       loadProfiles: "LOAD_PROFILES",
     }),
   },
   computed: {
+     ...mapState({
+    ready: "appReady"
+    }),
     ...mapState("profiles", {
       profiles: (state) => state.profiles,
     }),

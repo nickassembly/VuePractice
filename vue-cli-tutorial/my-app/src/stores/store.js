@@ -7,6 +7,21 @@ import popup from './modules/popup';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+   state: {
+appReady: false
+   },
+   mutations: {
+    READY_APP(state) {
+       state.appReady = true;
+    }
+   },
+   actions: {
+INIT_APP({commit}) {
+   setTimeout(function () {
+      commit("READY_APP");
+   }, 5000);
+}
+   },
    modules: {
       profiles,
       popup

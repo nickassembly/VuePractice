@@ -2,7 +2,7 @@ export default {
     namespaced: true,
     state: {
         message: "",
-        display: true,
+        display: false,
         timeout: null
     },
     getters: {

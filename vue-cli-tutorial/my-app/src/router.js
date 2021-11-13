@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { store } from './stores/store'
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -48,6 +49,8 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+function proceed() {
+    
     if (to.matched.some(record => record.meta.auth)) {
         let authenticated = true;
         //check if authenticated
@@ -59,6 +62,21 @@ router.beforeEach((to, from, next) => {
         }
     }
     next();
+}
+
+if (!store.state.appReady){
+    store.watch(
+        (state) => state.appReady,
+        (ready) => {
+            if(ready){
+                proceed();
+            }
+        }
+    )
+} else {
+    proceed();
+}
+
 });
 
 export default router;
